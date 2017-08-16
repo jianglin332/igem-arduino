@@ -24,12 +24,7 @@ const int LIGHT = 4;
 
 //ascii !"#$%&'()*+,-./
 const int dataSize = 3;
-char Read()
-{
-  char t = Serial.read();
-  delay(3);
-  return t;
-}
+
 struct data
 {
   int dat[dataSize];
@@ -39,16 +34,16 @@ struct data
   }
   void read()
   {
+    delay(1);
     char nowByte = 0;
     for (int i = 0; i < dataSize; i++)
     {
       char nowCh = '#' + i;
       int num = 0;
       while (Serial.available() > 0 && nowByte != nowCh)
-        nowByte = Read();
+        nowByte = Serial.read();
       Serial.println(nowByte);
-      delay(1);
-      while (Serial.available() > 0 && (nowByte = Read()) != nowCh + 1)
+      while (Serial.available() > 0 && (nowByte = Serial.read()) != nowCh + 1)
         num = num * 10 + nowByte - '0';
       dat[i] = num;
       Serial.print(i);
@@ -75,7 +70,7 @@ void setup() {
   ind->turn(ON);
   ind->setColor(yellow);
   pinMode(light, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void setSpd(int a, int no) //Set Speed
