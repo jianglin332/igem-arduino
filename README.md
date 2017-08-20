@@ -1,2 +1,2 @@
 # igem-arduino
-&copy David Jiang
+&copy; David Jiang
