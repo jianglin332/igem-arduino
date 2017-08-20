@@ -2,11 +2,13 @@
 
 #include "IndicatorLED.h"
 
-const int IN1[2] = {3, 4};
-const int IN2[2] = {7, 8};
-const int EN[2] = {5, 6};
+const int N_MOTOR = 3;
 
-const int light = 12;
+const int IN1[N_MOTOR] = {3, 4, A1};
+const int IN2[N_MOTOR] = {7, 8, A2};
+const int EN[N_MOTOR] = {5, 6, A3};
+
+const int light = A0;
 
 
 const int ON = 1;
@@ -42,13 +44,9 @@ struct data
       int num = 0;
       while (Serial.available() > 0 && nowByte != nowCh)
         nowByte = Serial.read();
-      Serial.println(nowByte);
       while (Serial.available() > 0 && (nowByte = Serial.read()) != nowCh + 1)
         num = num * 10 + nowByte - '0';
       dat[i] = num;
-      Serial.print(i);
-      Serial.print(" ");
-      Serial.println(num);
     }
   }
   int operator[](int p)
@@ -60,7 +58,7 @@ struct data
 unsigned int spd = 0; //Speed
 void setup() {
   // put your setup code here, to run once:
-  for (int i = 0; i < 2; i++)
+  for (int i = 0; i < N_MOTOR; i++)
   {
     pinMode(IN1[i], OUTPUT);
     pinMode(IN2[i], OUTPUT);
@@ -68,7 +66,7 @@ void setup() {
   }
   ind = new IndicatorLED;
   ind->turn(ON);
-  ind->setColor(yellow);
+  ind->setColor(green);
   pinMode(light, OUTPUT);
   Serial.begin(115200);
 }
